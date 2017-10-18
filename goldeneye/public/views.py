@@ -2,6 +2,7 @@
 """Public section, including homepage and signup."""
 from flask import Blueprint, flash, redirect, render_template, request, url_for, abort
 from flask_login import login_required, login_user, logout_user
+from flask_menu import register_menu
 
 from goldeneye.extensions import login_manager
 from goldeneye.public.forms import LoginForm
@@ -76,7 +77,24 @@ def register():
 
 
 @blueprint.route('/about/')
+@register_menu(blueprint, '.about', 'About')
 def about():
+    """About page."""
+    form = LoginForm(request.form)
+    return render_template('public/about.html', form=form)
+
+
+@blueprint.route('/about1/')
+@register_menu(blueprint, 'about.about1', 'About1')
+def about1():
+    """About page."""
+    form = LoginForm(request.form)
+    return render_template('public/about.html', form=form)
+
+
+@blueprint.route('/about2/')
+@register_menu(blueprint, 'about.about1.about2', 'About2')
+def about2():
     """About page."""
     form = LoginForm(request.form)
     return render_template('public/about.html', form=form)

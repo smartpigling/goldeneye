@@ -18,10 +18,21 @@
   </div>
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse navbar-ex1-collapse">
-    <ul class="nav navbar-nav">
-      <li><a href="{{ url_for('public.home') }}">Home</a></li>
-      <li><a href="{{ url_for('public.about') }}">About</a></li>
+
+
+<ul class="nav navbar-nav">
+  {%- for item in current_menu.children recursive -%}
+  <li>
+    <a href="{{ item.url}}">{{ item.text }}</a>
+    {%- if item.children -%}
+    <ul>
+      {{ loop(item.children) }}
     </ul>
+    {%- endif -%}
+  </li>
+  {%- endfor -%}
+</ul>
+
     {% if current_user and current_user.is_authenticated %}
     <ul class="nav navbar-nav navbar-right">
         <li>
@@ -43,6 +54,11 @@
 {#      <button type="submit" class="btn btn-default">Log in</button>#}
 {#    </form>#}
     {% endif %}
+
+
+
+
+
   </div><!-- /.navbar-collapse -->
   </div><!-- /.container -->
 </nav>

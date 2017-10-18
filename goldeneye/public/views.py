@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Public section, including homepage and signup."""
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for, abort
 from flask_login import login_required, login_user, logout_user
 
 from goldeneye.extensions import login_manager
@@ -27,11 +27,30 @@ def home():
         if form.validate_on_submit():
             login_user(form.user)
             flash('You are logged in.', 'success')
-            redirect_url = request.args.get('next') or url_for('user.members')
-            return redirect(redirect_url)
+            next = request.args.get('next')
+            # if not is_safe_url(next):
+            #     return abort(400)
+            return redirect(next or url_for('user.members'))
         else:
             flash_errors(form)
     return render_template('public/home.html', form=form)
+
+
+@blueprint.route('/login/', methods=['GET', 'POST'])
+def login():
+    form = LoginForm(request.form)
+    # Handle logging in
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            login_user(form.user, remember=form.remember.data)
+            flash('You are logged in.', 'success')
+            next = request.args.get('next')
+            # if not is_safe_url(next):
+            #     return abort(400)
+            return redirect(next or url_for('user.members'))
+        else:
+            flash_errors(form)
+    return render_template('public/login.html', form=form)
 
 
 @blueprint.route('/logout/')

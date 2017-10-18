@@ -8,13 +8,49 @@ from goldeneye.database import Column, Model, SurrogatePK, db, reference_col, re
 from goldeneye.extensions import bcrypt
 
 
+role_permission = db.Table('role_permission',
+                        Column('role_id', db.Integer, db.ForeignKey('roles.id')),
+                        Column('permission_id', db.Integer, db.ForeignKey('permissions.id')))
+
+user_role = db.Table('user_role',
+                        Column('role_id', db.Integer, db.ForeignKey('roles.id')),
+                        Column('user_id', db.Integer, db.ForeignKey('users.id')))
+
+
+class Permission(SurrogatePK, Model):
+    """ A permission for a role"""
+    __tablename__ = 'permissions'
+    name = Column(db.String(80), unique=True, nullable=False)
+    slug = Column(db.String(255))
+    description = Column(db.String(255))
+    # created_at = Column(db.DateTime, nullable=False, default=dt.datetime.utcnow)
+    # updated_at = Column(db.DateTime, nullable=False, default=dt.datetime.utcnow)
+    # created_by = Column(db.Integer)
+    # updated_by = Column(db.Integer)
+    status = Column(db.Integer)
+    roles = relationship('Role',
+                        secondary=role_permission,
+                        backref=db.backref('permissions', lazy='dynamic'))
+
+    def __init__(self, name, **kwargs):
+        """Create instance."""
+        db.Model.__init__(self, name, **kwargs)
+
+    def __repr__(self):
+        return '<Permission({name})>'.format(name=self.name)
+
+
+
 class Role(SurrogatePK, Model):
     """A role for a user."""
 
     __tablename__ = 'roles'
     name = Column(db.String(80), unique=True, nullable=False)
-    user_id = reference_col('users', nullable=True)
-    user = relationship('User', backref='roles')
+    # user_id = reference_col('users', nullable=True)
+    # user = relationship('User', backref='roles')
+    users = relationship('User',
+                        secondary=user_role,
+                        backref=db.backref('roles', lazy='dynamic'))
 
     def __init__(self, name, **kwargs):
         """Create instance."""

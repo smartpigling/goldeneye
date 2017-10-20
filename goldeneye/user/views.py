@@ -11,3 +11,9 @@ blueprint = Blueprint('user', __name__, url_prefix='/users', static_folder='../s
 def members():
     """List members."""
     return render_template('users/members.html')
+
+
+@blueprint.route('/user_list/')
+def users():
+    list_columns = [('id','ID'),('username','名称')]
+    return render_template('users/list.html', list_columns = list_columns, data = None)

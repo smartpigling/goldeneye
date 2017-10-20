@@ -36,21 +36,21 @@ class TestUser:
 
     def test_factory(self, db):
         """Test user factory."""
-        user = UserFactory(password='myprecious')
+        user = UserFactory(password='example')
         db.session.commit()
         assert bool(user.username)
         assert bool(user.email)
         assert bool(user.created_at)
         assert user.is_admin is False
         assert user.active is True
-        assert user.check_password('myprecious')
+        assert user.check_password('example')
 
     def test_check_password(self):
         """Check password."""
         user = User.create(username='foo', email='foo@bar.com',
-                           password='foobarbaz123')
-        assert user.check_password('foobarbaz123') is True
-        assert user.check_password('barfoobaz') is False
+                           password='example')
+        assert user.check_password('example') is True
+        assert user.check_password('example123') is False
 
     def test_full_name(self):
         """User full name."""

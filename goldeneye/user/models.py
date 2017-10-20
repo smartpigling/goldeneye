@@ -23,18 +23,15 @@ class Permission(SurrogatePK, Model):
     name = Column(db.String(80), unique=True, nullable=False)
     slug = Column(db.String(255))
     description = Column(db.String(255))
-    # created_at = Column(db.DateTime, nullable=False, default=dt.datetime.utcnow)
-    # updated_at = Column(db.DateTime, nullable=False, default=dt.datetime.utcnow)
-    # created_by = Column(db.Integer)
-    # updated_by = Column(db.Integer)
-    status = Column(db.Integer)
+    type = Column(db.String(2)) # N: Nav, M: Menu, B:Button
+    status = Column(db.Boolean(), default=True)
     roles = relationship('Role',
                         secondary=role_permission,
                         backref=db.backref('permissions', lazy='dynamic'))
 
     def __init__(self, name, **kwargs):
         """Create instance."""
-        db.Model.__init__(self, name, **kwargs)
+        db.Model.__init__(self, name=name, **kwargs)
 
     def __repr__(self):
         return '<Permission({name})>'.format(name=self.name)
@@ -72,7 +69,7 @@ class User(UserMixin, SurrogatePK, Model):
     created_at = Column(db.DateTime, nullable=False, default=dt.datetime.utcnow)
     first_name = Column(db.String(30), nullable=True)
     last_name = Column(db.String(30), nullable=True)
-    active = Column(db.Boolean(), default=False)
+    active = Column(db.Boolean(), default=True)
     is_admin = Column(db.Boolean(), default=False)
 
     def __init__(self, username, email, password=None, **kwargs):

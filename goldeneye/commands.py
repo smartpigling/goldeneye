@@ -124,3 +124,24 @@ def urls(url, order):
 
     for row in rows:
         click.echo(str_template.format(*row[:column_length]))
+
+
+@click.command()
+@with_appcontext
+def initdb():
+    """
+    init system data
+    :return:
+    """
+    from goldeneye.user.models import User, Role, Permission
+
+    perms = [
+        Permission(name='系统测试1', slug='public.about', type='N'),
+        Permission(name='系统测试2', slug='public.about1', type='N'),
+        Permission(name='系统测试3', slug='public.about2', type='N')
+    ]
+    role = Role.create(name='系统管理员', permissions=perms)
+
+    user = User(username='admin', email='admin@goldeneye.com', password='admin')
+    user.roles.append(role)
+    user.save()

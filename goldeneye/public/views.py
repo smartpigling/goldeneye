@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """Public section, including homepage and signup."""
 from flask import Blueprint, flash, redirect, render_template, request, url_for, abort
-from flask_login import login_required, login_user, logout_user
+from flask_login import current_user, login_required, login_user, logout_user
 from flask_menu import register_menu
 
-from goldeneye.extensions import login_manager
+from goldeneye.extensions import login_manager, db
 from goldeneye.public.forms import LoginForm
 from goldeneye.user.forms import RegisterForm
-from goldeneye.user.models import User
+from goldeneye.user.models import User, Role, Permission
 from goldeneye.utils import flash_errors
 
 blueprint = Blueprint('public', __name__, static_folder='../static')
@@ -20,21 +20,13 @@ def load_user(user_id):
 
 
 @blueprint.route('/', methods=['GET', 'POST'])
+@login_required
 def home():
-    """Home page."""
-    form = LoginForm(request.form)
-    # Handle logging in
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            login_user(form.user)
-            flash('You are logged in.', 'success')
-            next = request.args.get('next')
-            # if not is_safe_url(next):
-            #     return abort(400)
-            return redirect(next or url_for('user.members'))
-        else:
-            flash_errors(form)
-    return render_template('public/home.html', form=form)
+    current_user_perms = []
+    for perm in db.session.query(Permission).join(Role, Permission.roles).\
+            join(User, Role.users).filter(User.id == current_user.id).distinct():
+        current_user_perms.append(url_for(perm.slug))
+    return render_template('public/home.html', current_user_perms=current_user_perms)
 
 
 @blueprint.route('/login/', methods=['GET', 'POST'])
@@ -48,7 +40,7 @@ def login():
             next = request.args.get('next')
             # if not is_safe_url(next):
             #     return abort(400)
-            return redirect(next or url_for('user.members'))
+            return redirect(next or url_for('public.home'))
         else:
             flash_errors(form)
     return render_template('public/login.html', form=form)
@@ -85,7 +77,7 @@ def about():
 
 
 @blueprint.route('/about1/')
-@register_menu(blueprint, 'about.about1', 'About1')
+@register_menu(blueprint, '.about1', 'About1')
 def about1():
     """About page."""
     form = LoginForm(request.form)
@@ -93,7 +85,7 @@ def about1():
 
 
 @blueprint.route('/about2/')
-@register_menu(blueprint, 'about.about1.about2', 'About2')
+@register_menu(blueprint, '.about2', 'About2')
 def about2():
     """About page."""
     form = LoginForm(request.form)

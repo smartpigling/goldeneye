@@ -8,9 +8,8 @@ html {
   overflow-y: scroll;
 }
 
-body {
-  padding-top: 60px;
-}
+body{padding-top:50px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;}
+
 
 section {
   overflow: auto;
@@ -84,3 +83,4 @@ footer .footer-nav {
   margin-right: 25px;
   list-style: none;
 }
+

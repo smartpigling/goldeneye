@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 """User views."""
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required
 from flask_paginate import Pagination, get_page_args
 from goldeneye.extensions import db
 from goldeneye.user.models import User
+from goldeneye.user.forms import UserForm
+from goldeneye.utils import flash_errors
 
 blueprint = Blueprint('user', __name__, url_prefix='/users', static_folder='../static')
 
@@ -16,8 +18,8 @@ def members():
     return render_template('users/members.html')
 
 
-@blueprint.route('/user_list/', methods=['GET','POST'])
-def users():
+@blueprint.route('/list_user/', methods=['GET','POST'])
+def list_user():
     page, per_page, offset = get_page_args()
     list_columns = {'id': 'ID', 'username': '登录名称', 'active': '是否激活'}
     query = db.session.query(User)
@@ -28,9 +30,24 @@ def users():
 
     pagination = Pagination(page=page, per_page=per_page, total=page_results.total,
                             bs_version=3)
-    return render_template('users/user_list.html',
+    return render_template('users/list_user.html',
                            list_columns=list_columns,
                            results=page_results.items,
                            username=username,
                            pagination=pagination
                            )
+
+
+@blueprint.route('/create_user/', methods=['GET', 'POST'])
+def create_user():
+    form = UserForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data,
+                    email=form.email.data,
+                    password=form.password.data
+                    )
+        user.save()
+        return redirect(url_for('user.list_user'))
+    else:
+        flash_errors(form)
+    return render_template('users/create_user.html', form=form)

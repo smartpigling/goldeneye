@@ -6,7 +6,7 @@ from flask_menu import register_menu
 
 from goldeneye.extensions import login_manager, db
 from goldeneye.public.forms import LoginForm
-from goldeneye.user.forms import RegisterForm
+from goldeneye.user.forms import UserForm
 from goldeneye.user.models import User, Role, Permission
 from goldeneye.utils import flash_errors
 
@@ -38,8 +38,6 @@ def login():
             login_user(form.user, remember=form.remember.data)
             flash('You are logged in.', 'success')
             next = request.args.get('next')
-            # if not is_safe_url(next):
-            #     return abort(400)
             return redirect(next or url_for('public.home'))
         else:
             flash_errors(form)
@@ -58,7 +56,7 @@ def logout():
 @blueprint.route('/register/', methods=['GET', 'POST'])
 def register():
     """Register new user."""
-    form = RegisterForm(request.form)
+    form = UserForm(request.form)
     if form.validate_on_submit():
         User.create(username=form.username.data, email=form.email.data, password=form.password.data, active=True)
         flash('Thank you for registering. You can now log in.', 'success')

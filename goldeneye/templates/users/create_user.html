@@ -1,27 +1,38 @@
+{% extends "layout_ext.html" %}
+{% from 'lib_ext.html' import render_field_errors, render_field %}
 
-{% extends "layout.html" %}
 {% block content %}
 <div class="container-narrow">
   <h1>Register</h1>
     <br/>
-    <form i class="form form-register" method="POST" action="{{ url_for('user.create_user') }}" >
-            {{ form.csrf_token }}
+    <form i class="form-horizontal" method="post" action="{{ url_for('user.create_user') }}" >
+            {{ form.hidden_tag() }}
             <div class="form-group">
-                {{form.username.label}}
-                {{form.username(placeholder="Username", class_="form-control")}}
+                {{ form.username.label}}
+                {{ form.username(placeholder="Username", class="form-control")}}
+                {{ render_field_errors(form.username) }}
             </div>
             <div class="form-group">
                 {{form.email.label}}
-                {{form.email(placeholder="Email", class_="form-control")}}
+                {{form.email(placeholder="Email", class="form-control")}}
+                {{ render_field_errors(form.email) }}
             </div>
             <div class="form-group">
                 {{form.password.label}}
-                {{form.password(placeholder="Password", class_="form-control")}}
+                {{form.password(placeholder="Password", class="form-control")}}
+                {{ render_field_errors(form.password) }}
             </div>
             <div class="form-group">
                 {{form.confirm.label}}
-                {{form.confirm(placeholder="Password (again)", class_="form-control")}}
+                {{form.confirm(placeholder="Password (again)", class="form-control")}}
+                {{ render_field_errors(form.confirm) }}
             </div>
+            <div class="form-group">
+                {{form.active.label}}
+                {{form.active}}
+                {{ render_field_errors(form.confirm) }}
+            </div>
+        {{ render_field(form.username) }}
             <p><input class="btn btn-default btn-submit" type="submit" value="Register"></p>
     </form>
 

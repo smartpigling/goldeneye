@@ -1,67 +1,209 @@
+{% extends "base.html" %}
 
-<!doctype html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
 
-  <title>{% block page_title %}
-  
-    GoldenEye
-  
-    {% endblock %}
-  </title>
-  <meta name="description" content="{% block meta_description %}{% endblock %}">
-  <meta name="author" content="{% block meta_author %}{% endblock %}">
 
-  <!-- Mobile viewport optimized: h5bp.com/viewport -->
-  <meta name="viewport" content="width=device-width">
+{% block navbar %}
+    <!-- Sidebar toggle button-->
+    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </a>
+    <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+            <!-- Messages: style can be found in dropdown.less-->
+            <li class="dropdown messages-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-envelope"></i>
+                    <span class="label label-success">4</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="header">You have 46 messages</li>
+                    <li>
+                        <!-- inner menu: contains the actual data -->
+                        <ul class="menu">
+                            <li><!-- start message -->
+                                <a href="#">
+                                    <div class="pull-left">
+                                        <img src="{{ current_user.avatar }}" class="img-circle" alt="User Image"/>
+                                    </div>
+                                    <h4>
+                                        Support Team
+                                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                    </h4>
+                                    <p>Why not buy a new awesome theme?</p>
+                                </a>
+                            </li><!-- end message -->
+                            <li>
+                                <a href="#">
+                                    <div class="pull-left">
+                                        <img src="{{ url_for('static', filename='img/avatar2.png') }}"
+                                             class="img-circle" alt="user image"/>
+                                    </div>
+                                    <h4>
+                                        AdminLTE Design Team
+                                        <small><i class="fa fa-clock-o"></i> 2 hours</small>
+                                    </h4>
+                                    <p>Why not buy a new awesome theme?</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="pull-left">
+                                        <img src="{{ url_for('static', filename='img/avatar.png') }}" class="img-circle"
+                                             alt="user image"/>
+                                    </div>
+                                    <h4>
+                                        Developers
+                                        <small><i class="fa fa-clock-o"></i> Today</small>
+                                    </h4>
+                                    <p>Why not buy a new awesome theme?</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="pull-left">
+                                        <img src="{{ url_for('static', filename='img/avatar2.png') }}"
+                                             class="img-circle" alt="user image"/>
+                                    </div>
+                                    <h4>
+                                        Sales Department
+                                        <small><i class="fa fa-clock-o"></i> Yesterday</small>
+                                    </h4>
+                                    <p>Why not buy a new awesome theme?</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="pull-left">
+                                        <img src="{{ url_for('static', filename='img/avatar.png') }}" class="img-circle"
+                                             alt="user image"/>
+                                    </div>
+                                    <h4>
+                                        Reviewers
+                                        <small><i class="fa fa-clock-o"></i> 2 days</small>
+                                    </h4>
+                                    <p>Why not buy a new awesome theme?</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="footer"><a href="#">See All Messages</a></li>
+                </ul>
+            </li>
+            <!-- User Account: style can be found in dropdown.less -->
+            <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <span>{{ current_user.full_name }} <i class="caret"></i></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <!-- User image -->
+                    <li class="user-header bg-light-blue">
+                        <img src="{{ current_user.avatar }}" class="img-circle" alt="User Image"/>
+                        <p>
+                            {{ current_user.full_name }} - Web Developer
+                            <small>Member since {{ current_user.created_at.strftime("%b. %Y") }}</small>
+                        </p>
+                    </li>
+                    <!-- Menu Body -->
+                    <li class="user-body">
+                        <div class="col-xs-4 text-center">
+                            <a href="#">Followers</a>
+                        </div>
+                        <div class="col-xs-4 text-center">
+                            <a href="#">Sales</a>
+                        </div>
+                        <div class="col-xs-4 text-center">
+                            <a href="#">Friends</a>
+                        </div>
+                    </li>
+                    <!-- Menu Footer-->
+                    <li class="user-footer">
+                        <div class="pull-left">
+                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                        </div>
+                        <div class="pull-right">
+                            <a href="{{ url_for('public.login') }}" class="btn btn-default btn-flat">Sign out</a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+{%- endblock navbar %}
+{% block sidebar -%}
+    <!-- sidebar: style can be found in sidebar.less -->
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src="{{ current_user.avatar }}" alt="User Image" class="img-circle">
+        </div>
+        <div class="pull-left info">
+            <p>{{ current_user.full_name }}</p>
+            <a href="#">
+                <i class="fa fa-circle text-success"></i>
+                Online
+            </a>
+        </div>
+    </div>
+    <ul class="sidebar-menu">
+        <li class="header">HEADER</li>
+        <li class="treeview ">
+            <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            </ul>
+        </li>
 
-  {{ stylesheet_tag('main_css') | safe }}
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-folder"></i>
+                <span>Examples</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+                <li>
+                    <a href="{{ url_for('public.login') }}">
+                        <i class="fa fa-circle-o"></i>
+                        Login
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('public.about') }}">
+                        <i class="fa fa-circle-o"></i>
+                        Lockscreen
+                    </a>
+                </li>
+            </ul>
+        </li>
 
-  {% block css %}{% endblock %}
+    </ul>
+    <!-- /.sidebar -->
+{%- endblock sidebar %}
+{% block content_header -%}
+    <h1>
+        Dashboard
+        <small>Preview page</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+    </ol>
+{%- endblock content_header %}
+{% block content -%}
+    <h4 class="page-header">
+        AdminLTE Small Boxes
+        <small>Small boxes are used for viewing statistics. To create a small box use the <code>widgets.small_box</code>
+            widget.
+        </small>
+    </h4>
 
-</head>
-<body class="{% block body_class %}{% endblock %}">
-{% block body %}
-{% with form=form  %}
-{% include "nav.html" %}
-{% endwith %}
 
-<header>{% block header %}{% endblock %}</header>
-<div class="{% block content_class %}container{% endblock content_class %}">
 
-  <div role="main">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <div class="row">
-      <div class="col-md-12">
-        {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">
-          <a class="close" title="Close" href="#" data-dismiss="alert">&times;</a>
-         {{message}}
-        </div><!-- end .alert -->
-        {% endfor %}
-      </div><!-- end col-md -->
-    </div><!-- end row -->
-        {% endif %}
-    {% endwith %}
-
-    {% block content %}{% endblock %}
-  </div>
-
-</div><!-- end container -->
-
-{% include "footer.html" %}
-
-<!-- JavaScript at the bottom for fast page loading -->
-{{ javascript_tag('main_js') | safe }}
-{% block js %}{% endblock %}
-<!-- end scripts -->
-{% endblock %}
-</body>
-</html>
-
+{%- endblock content %}

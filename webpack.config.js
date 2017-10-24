@@ -21,8 +21,12 @@ module.exports = {
   entry: {
     main_js: './assets/js/main',
     main_css: [
-      // path.join(__dirname, 'node_modules', 'font-awesome', 'css', 'font-awesome.css'),
-      // path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'css', 'bootstrap.css'),
+      path.join(__dirname, 'node_modules', 'font-awesome', 'css', 'font-awesome.css'),
+      path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'css', 'bootstrap.css'),
+      path.join(__dirname, 'node_modules', 'ionicons', 'dist', 'css', 'ionicons.css'),
+      path.join(__dirname, 'node_modules', 'jvectormap', 'jquery-jvectormap.css'),
+      path.join(__dirname, 'node_modules', 'admin-lte', 'dist', 'css', 'AdminLTE.css'),
+      path.join(__dirname, 'node_modules', 'admin-lte', 'dist', 'css', 'skins', 'skin-blue.css'),
       path.join(__dirname, 'assets', 'css', 'style.css'),
     ],
   },

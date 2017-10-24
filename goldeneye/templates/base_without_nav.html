@@ -1,41 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     {%- block head %}
-    <title>{% block title %}{% endblock title %}</title>
-    {%- block metas %}
-    <meta charset="UTF-8">
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    {%- endblock metas %}
-    {{ stylesheet_tag('main_css') | safe }}
-    {%- block styles %}
-    <!-- bootstrap 3.0.2 -->
-    <link href="{{ adminlte_find_resource('css/bootstrap.css', cdn='local') }}" rel="stylesheet" type="text/css" />
-    <!-- font Awesome -->
-    <link href="{{ adminlte_find_resource('css/font-awesome.css', cdn='local') }}" rel="stylesheet" type="text/css" />
-    <!-- Ionicons -->
-    <link href="{{ adminlte_find_resource('css/ionicons.css', cdn='local') }}" rel="stylesheet" type="text/css" />
-    <!-- Theme style -->
-    <link href="{{ adminlte_find_resource('css/AdminLTE.css', cdn='local', use_minified=False) }}" rel="stylesheet" type="text/css" />
-    <!-- Skin  -->
-    <link href="{{ adminlte_find_resource('css/skins/skin-blue.min.css', cdn='local', use_minified=False) }}" rel="stylesheet" type="text/css" />
-    {%- endblock styles %}
+        {%- block metas %}
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        {%- endblock metas %}
+        <title>{% block title %}{% endblock title %}</title>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        {{ stylesheet_tag('main_css') | safe }}
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+        {%- block styles %}
+
+        {%- endblock styles %}
+
     {%- endblock head %}
-  </head>
+</head>
 
-  <body class="{% block bodytag %}{% endblock %}">
-    {% block body %}{% endblock %}
+<body class="hold-transition skin-blue sidebar-mini">
+{% block body %}{% endblock %}
 
-        {% block tail %}{% endblock %}
-    {{ javascript_tag('main_js') | safe }}
-    {% block scripts %}
-    <!-- jQuery 2.0.2 -->
-    <script src="{{ adminlte_find_resource('jquery.js', cdn='jquery') }}"></script>
-    <!-- Bootstrap -->
-    <script src="{{ adminlte_find_resource('js/bootstrap.js', cdn='local') }}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{ adminlte_find_resource('js/AdminLTE/app.js', cdn='local', use_minified=False) }}"></script>
-    {%- endblock scripts %}
+{% block tail %}{% endblock %}
+{{ javascript_tag('main_js') | safe }}
+{% block scripts %}
 
-    </body>
+{%- endblock scripts %}
+
+</body>
 </html>

@@ -9,9 +9,12 @@
 require('jquery');
 require('font-awesome-webpack');
 require('bootstrap');
-
+require('fastclick/lib/fastclick');
+require('jquery-sparkline/jquery.sparkline');
+require('jvectormap/jquery-jvectormap');
+require('jquery-slimscroll/jquery.slimscroll');
+require('admin-lte/dist/js/adminlte');
 
 // Your own code
-// require('./app.js');
 require('./plugins.js');
 require('./script.js');

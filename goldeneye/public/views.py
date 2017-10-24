@@ -79,7 +79,7 @@ def about():
 def about1():
     """About page."""
     form = LoginForm(request.form)
-    return render_template('public/about.html', form=form)
+    return render_template('public/home.html', form=form)
 
 
 @blueprint.route('/about2/')
@@ -87,4 +87,4 @@ def about1():
 def about2():
     """About page."""
     form = LoginForm(request.form)
-    return render_template('public/about.html', form=form)
+    return render_template('index.html', form=form)

@@ -1,10 +1,13 @@
 {% extends "layout.html" %}
 
-{% block content %}
+{%- block content -%}
+
+
+
 
     <div class="table-responsive">
-        <h1> Grid </h1>
-        {% block model_menu_bar %}
+
+        {% block page_content_header %}
             <!--查询-->
         {% endblock %}
         <!-- list_columns=list_columns, data=data -->
@@ -73,11 +76,11 @@
     </div>
 
     <!--分页-->
-    {% block list_pager %}
+    {%- block list_pager -%}
         {{ pagination.info }}
         {{ pagination.links }}
-    {% endblock %}
+    {%- endblock -%}
 
-{% endblock %}
+{%- endblock -%}
 
 

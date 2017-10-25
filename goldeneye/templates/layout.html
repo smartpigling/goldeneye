@@ -63,7 +63,7 @@
                                         <img src="{{ current_user.avatar }}" class="img-circle" alt="User Image"/>
                                         <p>
                                             {{ current_user.full_name }} - Web Developer
-                                            <small>Member since {{ current_user.created_at.strftime("%b. %Y") }}</small>
+{#                                            <small>Member since {{ current_user.created_at.strftime("%b. %Y") }}</small>#}
                                         </p>
                                     </li>
                                     <!-- Menu Body -->
@@ -92,7 +92,7 @@
                             </li>
                         </ul>
                     </div>
-                {%- endblock navbar %}
+                {%- endblock navbar -%}
             </nav>
 
         </header>
@@ -148,6 +148,15 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 {% block content_header -%}
+                  <h1>
+                    Simple Tables
+                    <small>preview of simple tables</small>
+                  </h1>
+                  <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#">Tables</a></li>
+                    <li class="active">Simple</li>
+                  </ol>
                 {%- endblock content_header %}
             </section>
 

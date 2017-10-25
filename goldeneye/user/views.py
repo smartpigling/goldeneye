@@ -3,6 +3,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required
 from flask_paginate import Pagination, get_page_args
+from flask_menu import register_menu
+
 from goldeneye.extensions import db
 from goldeneye.user.models import User
 from goldeneye.user.forms import UserForm
@@ -11,14 +13,13 @@ from goldeneye.utils import flash_errors
 blueprint = Blueprint('user', __name__, url_prefix='/users', static_folder='../static')
 
 
-@blueprint.route('/')
-@login_required
-def members():
-    """List members."""
-    return render_template('users/members.html')
+@register_menu(blueprint, '.user_settings', '管理设置', cls='fa-gears')
+def user_settings():
+    return None
 
 
-@blueprint.route('/list_user/', methods=['GET','POST'])
+@blueprint.route('/list_user/', methods=['GET'])
+@register_menu(blueprint, 'user_settings.list_user', '账号管理')
 def list_user():
     page, per_page, offset = get_page_args()
     list_columns = {'id': 'ID', 'username': '登录名称', 'active': '是否激活'}

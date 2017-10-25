@@ -22,10 +22,13 @@ def load_user(user_id):
 @blueprint.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
-    current_user_perms = []
-    for perm in db.session.query(Permission).join(Role, Permission.roles).\
-            join(User, Role.users).filter(User.id == current_user.id).distinct():
-        current_user_perms.append(url_for(perm.slug))
+    # current_user_perms = []
+    # for perm in db.session.query(Permission).join(Role, Permission.roles).\
+    #         join(User, Role.users).filter(User.id == current_user.id).distinct():
+    #     current_user_perms.append(url_for(perm.slug))
+    # return render_template('public/home.html', current_user_perms=current_user_perms)
+    current_user_perms = ['/about/','/about1/','/about2/','/about11/','/about12/','la','la1']
+
     return render_template('public/home.html', current_user_perms=current_user_perms)
 
 
@@ -67,24 +70,8 @@ def register():
 
 
 @blueprint.route('/about/')
-@register_menu(blueprint, '.about', 'About')
+@register_menu(blueprint, '.about', '一级菜单', cls='fa-edit')
 def about():
-    """About page."""
-    form = LoginForm(request.form)
-    return render_template('public/about.html', form=form)
 
+    return redirect(url_for('public.about'))
 
-@blueprint.route('/about1/')
-@register_menu(blueprint, '.about1', 'About1')
-def about1():
-    """About page."""
-    form = LoginForm(request.form)
-    return render_template('public/home.html', form=form)
-
-
-@blueprint.route('/about2/')
-@register_menu(blueprint, '.about2', 'About2')
-def about2():
-    """About page."""
-    form = LoginForm(request.form)
-    return render_template('index.html', form=form)

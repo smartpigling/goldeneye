@@ -1,18 +1,16 @@
 {% extends "list.html" %}
 
-{% block model_menu_bar %}
 
-    <form class="form-inline" method="get">
-        <div class="form-group">
-            <label class="sr-only" for="username">名称</label>
-            <input type="text" class="form-control" name="username" placeholder="请输入名称" value="{{ username }}">
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-default">Submit &nbsp</button>
-        </div>
-        <div class="form-group">
-            <a href="{{ url_for('user.create_user') }}" class="button">add</a>
-        </div>
-    </form>
 
-{% endblock %}
+<!-- Main content -->
+<section class="content">
+    {% block content -%}
+
+
+
+        iopio
+        iopio
+        iopio
+
+    {%- endblock content %}
+</section><!-- /.content -->

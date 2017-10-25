@@ -44,58 +44,7 @@
 
 
 {% block page_body %}
-    <div class="wrapper">
-        <header class="main-header">
-            {% block brand %}
-                <a href="#" class="logo">
-                    <span class="logo-mini"><strong>LTE</strong></span>
-                    <span class="logo-lg">Admin<strong>LTE</strong></span>
-                </a>
-            {% endblock %}
 
-            <!-- Header Navbar: style can be found in header.less -->
-            <nav class="navbar navbar-static-top">
-                {% block navbar %}
-                {%- endblock navbar %}
-            </nav>
-
-        </header>
-
-        <!-- Left side column. contains the logo and sidebar -->
-        <aside class="main-sidebar">
-            <!-- sidebar: style can be found in sidebar.less -->
-            <section class="sidebar">
-                {% block sidebar -%}
-                {%- endblock sidebar %}
-            </section>
-        </aside>
-
-        <div class="content-wrapper">
-
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                {% block content_header -%}
-                {%- endblock content_header %}
-            </section>
-
-            <!-- Main content -->
-            <section class="content">
-                {% block content -%}
-                {%- endblock content %}
-            </section><!-- /.content -->
-        </div>
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                {% block version %}
-                    <b>Version</b> 2.4.0
-                {% endblock %}
-            </div>
-            {% block copyright %}
-                <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All
-                rights reserved.
-            {% endblock %}
-        </footer>
-    </div>
 {% endblock %}
 
 {% block tail %}{% endblock %}

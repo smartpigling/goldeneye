@@ -25,6 +25,7 @@ module.exports = {
       path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'css', 'bootstrap.css'),
       path.join(__dirname, 'node_modules', 'ionicons', 'dist', 'css', 'ionicons.css'),
       path.join(__dirname, 'node_modules', 'jvectormap', 'jquery-jvectormap.css'),
+      path.join(__dirname, 'node_modules', 'datatables.net-bs', 'css', 'dataTables.bootstrap.css'),
       path.join(__dirname, 'node_modules', 'admin-lte', 'dist', 'css', 'AdminLTE.css'),
       path.join(__dirname, 'node_modules', 'admin-lte', 'dist', 'css', 'skins', 'skin-blue.css'),
       path.join(__dirname, 'assets', 'css', 'style.css'),

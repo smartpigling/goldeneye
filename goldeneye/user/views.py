@@ -36,22 +36,24 @@ def list_user():
 def user_table():
     # startIndex = request.args.get('startIndex', default=1)#起始位置
     # pageSize = request.args.get('pageSize', default=10)#页面大小
+    draw = request.args.get('draw', default=1)#第几页
     # orderColumn = request.args.get('orderColumn') #排序列
     # orderDir = request.args.get('orderDir', default='asc') #排序方式
     # #查询
     # username = request.args.get('username', default='')
+    print(request.args)
+    print(draw)
 
-    # print(request.args)
-
+    print(request.args.get('pages'))
     query = db.session.query(User)
     username = request.args.get('username', default='')
     if username:
         query = query.filter(User.username == username)
 
-    page_results = query.paginate(0, per_page=10)
+    page_results = query.paginate(1, per_page=10)
 
     # return jsonify({'data': users_schema.dump(page_results.items).data})
-    return jsonify({'data': None})
+    return jsonify({'data': users_schema.dump(query.all()).data,'recordsTotal':10, 'draw':1})
 
 
 

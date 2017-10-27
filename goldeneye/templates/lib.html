@@ -256,9 +256,13 @@
 
 
 {%- macro render_table(id, list_columns, results) -%}
-    <table id="{{ id }}" class="table table-bordered table-hover">
+    <table id="{{ id }}" class="table table-bordered table-hover ">
         <thead>
         <tr>
+            <th style="width: 10px">#</th>
+            <th style="width: 10px">
+                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+            </th>
             {% for col, col_name in list_columns.items() %}
                 <th>{{ col_name }}</th>
             {% endfor %}
@@ -267,7 +271,9 @@
         <tbody>
         {% if results %}
             {% for row in results %}
-                <tr>
+                <tr class="{{ loop.cycle('odd', 'even') }}">
+                    <td>{{ loop.index + (pagination.page - 1) * pagination.per_page }}</td>
+                    <td><input type="checkbox"  name="rowid" value="{{ row.id }}"/></td>
                     {% for col in list_columns %}
                         <td>{{ row[col] }}</td>
                     {% endfor %}

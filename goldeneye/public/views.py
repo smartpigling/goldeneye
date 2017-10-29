@@ -70,8 +70,7 @@ def register():
 
 
 @blueprint.route('/about/')
-@register_menu(blueprint, '.about', '一级菜单', cls='fa-edit')
+@register_menu(blueprint, '.about', '一级菜单', type='N', cls='fa-edit')
 def about():
-
     return redirect(url_for('public.about'))
 

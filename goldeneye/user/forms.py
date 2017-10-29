@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """User forms."""
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, BooleanField
+from wtforms import PasswordField, StringField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 from .models import User
@@ -43,3 +43,7 @@ class UserForm(FlaskForm):
             return False
         return True
 
+
+class UserSearchForm(FlaskForm):
+    username = StringField('账号', default='')
+    active = SelectField('是否激活', default='', choices=([('', '全选'), ('1', '激活'), ('0', '未激活')]))

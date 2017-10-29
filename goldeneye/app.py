@@ -2,7 +2,7 @@
 """The app module, containing the app factory function."""
 from flask import Flask, render_template
 
-from goldeneye import commands, public, user
+from goldeneye import commands, admin, public, user
 from goldeneye.extensions import bcrypt, cache, csrf_protect, db, debug_toolbar, login_manager, migrate, webpack,\
                                 menu
 from goldeneye.settings import ProdConfig
@@ -39,6 +39,7 @@ def register_extensions(app):
 
 def register_blueprints(app):
     """Register Flask blueprints."""
+    app.register_blueprint(admin.views.blueprint)
     app.register_blueprint(public.views.blueprint)
     app.register_blueprint(user.views.blueprint)
     return None

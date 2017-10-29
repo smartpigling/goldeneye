@@ -97,6 +97,7 @@
 
         </header>
 
+
         <!-- Left side column. contains the logo and sidebar -->
         <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
@@ -112,33 +113,41 @@
                             <a href="#"><i class="fa fa-circle text-success"></i>Online</a>
                         </div>
                     </div>
+
+
+
+
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">HEADER</li>
 
                         {%- for item in current_menu.children recursive -%}
-                        {%- if  item.cls -%}
-                        <li class="treeview">
+                        {%- if  item.type=='N' -%}
+                        <li class="treeview {{ 'active menu-open' if item.has_active_child() }}">
                             <a href="#">
                                 <i class="fa {{ item.cls }}"></i> <span>{{ item.text }}</span>
                                 <span class="pull-right-container">
                                   <i class="fa fa-angle-left pull-right"></i>
                                 </span>
                             </a>
-                            {%- else -%}
+                        {%- elif item.type=='M' -%}
                                 <li class="{{ 'active' if item.active }}"><a href="{{ item.url }}"><i class="fa fa-circle-o"></i> {{ item.text }}</a></li>
-                            {%- endif -%}
-                            {%- if item.children -%}
+                        {%- endif -%}
+                            {%- if item.children and item.type=='N' -%}
                             <ul class="treeview-menu">
                                 {{ loop(item.children) }}
                             </ul>
                             {%- endif -%}
-                        {%- if item.cls -%}
+                        {%- if item.type=='N' -%}
                         </li>
                         {%- endif -%}
                         {%- endfor -%}
                     </ul>
                     <!-- /.sidebar -->
+
+
+
+
                 {%- endblock sidebar %}
             </section>
         </aside>

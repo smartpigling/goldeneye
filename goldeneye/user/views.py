@@ -14,6 +14,7 @@ from goldeneye.utils import flash_errors
 blueprint = Blueprint('user', __name__, url_prefix='/users', static_folder='../static')
 
 
+@blueprint.route('/user_settings/')
 @register_menu(blueprint, '.user_settings', '管理设置', type='N', cls='fa-gears')
 def user_settings():
     return None

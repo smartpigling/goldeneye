@@ -8,7 +8,7 @@
 
             <div class="box box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Folders</h3>
+                    <h3 class="box-title">系统角色</h3>
 
                     <div class="box-tools">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
@@ -18,13 +18,9 @@
                 </div>
                 <div class="box-body no-padding">
                     <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#"><i class="fa fa-inbox"></i> Inbox
-                            <span class="label label-primary pull-right">12</span></a></li>
-                        <li><a href="#"><i class="fa fa-envelope-o"></i> Sent</a></li>
-                        <li><a href="#"><i class="fa fa-file-text-o"></i> Drafts</a></li>
-                        <li><a href="#"><i class="fa fa-filter"></i> Junk <span class="label label-warning pull-right">65</span></a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-trash-o"></i> Trash</a></li>
+                        {% for role in roles %}
+                        <li class="{{ 'active' if role.id == active_rid }}"><a href="{{ url_for('admin.authorized',active_rid=role.id) }}"><i class="fa fa-user-secret"></i> {{ role.name }}</a></li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <!-- /.box-body -->
@@ -47,7 +43,9 @@
 
                         {%- for item in current_menu.children recursive -%}
                             <li class="media">
-                                <div class="media-left"><input type="checkbox"/></div>
+                                <div class="media-left">
+                                    <input type="checkbox" class="flat-blue" name="perms" value="{{ item.url }}" {{ 'checked' if item.url in perms }}>
+                                </div>
                                 <div class="media-body">{{ item.text }}
                                     {%- if item.children -%}
                                         <ul class="media">
@@ -65,5 +63,21 @@
             </div>
         </div>
     </div>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+
+<script>
+
+//Flat red color scheme for iCheck
+$('input[type="checkbox"].flat-blue, input[type="radio"].flat-blue').iCheck({
+  checkboxClass: 'icheckbox_flat-green',
+  radioClass   : 'iradio_flat-green'
+})
+
+</script>
 
 {% endblock %}

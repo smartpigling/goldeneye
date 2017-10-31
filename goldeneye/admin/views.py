@@ -31,10 +31,29 @@ def authorized():
                            perms=perms)
 
 
-@blueprint.route('/save_authorized/', methods=['GET'])
+@blueprint.route('/save_authorized/', methods=['GET', 'POST'])
 @register_menu(blueprint, 'admin_settings.authorized.save_authorized', '权限设置', type='B')
 def save_authorized():
-    selected_role = request.form.get('selected_role', type=int)
-    perms = request.request.form.getlist('perms')
+    active_rid = request.values.get('active_rid')
+    perms = request.values.getlist('perms')
 
-    return redirect(url_for('admin.authorized', selected_role))
+    if active_rid:
+        acti_role = Role.get_by_id(active_rid)
+        acti_perms = db.session.query(Permission).filter(Permission.slug.in_(perms)).all()
+        acti_role.permissions=acti_perms
+        acti_role.save()
+
+    return redirect(url_for('admin.authorized', active_rid=active_rid))
+
+
+@blueprint.route('/save_role/', methods=['GET', 'POST'])
+def save_role():
+    role_id = request.values.get('role_id', default=None)
+    role_name = request.values.get('role_name')
+    if role_id:
+        role = Role.get_by_id(role_id)
+        role.name = role_name
+        role.save()
+    else:
+        Role.create(name=role_name)
+    return redirect(url_for('admin.authorized', active_rid=role_id))

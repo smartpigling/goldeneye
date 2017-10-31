@@ -3,23 +3,35 @@
 {% block content %}
 
     <div class="row">
+
         <div class="col-md-3">
-            <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Compose</a>
+
+
+            <div class="btn-group text-center margin-bottom">
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-role">
+                    <i class="fa fa-save"></i>添加角色
+                </button>
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-role"
+                        id="modal-role-modify">
+                    <i class="fa fa-save"></i>修改角色
+                </button>
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-default">
+                    <i class="fa fa-save"></i>删除角色
+                </button>
+            </div>
+
 
             <div class="box box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title">系统角色</h3>
 
-                    <div class="box-tools">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                class="fa fa-minus"></i>
-                        </button>
-                    </div>
                 </div>
                 <div class="box-body no-padding">
-                    <ul class="nav nav-pills nav-stacked">
+                    <ul id="role_panel" class="nav nav-pills nav-stacked">
                         {% for role in roles %}
-                        <li class="{{ 'active' if role.id == active_rid }}"><a href="{{ url_for('admin.authorized',active_rid=role.id) }}"><i class="fa fa-user-secret"></i> {{ role.name }}</a></li>
+                            <li class="{{ 'active' if role.id == active_rid }}"><a
+                                    href="{{ url_for('admin.authorized',active_rid=role.id) }}"><i
+                                    class="fa fa-user-secret"></i> {{ role.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -30,37 +42,86 @@
         <!-- /.col -->
 
 
-        <div class="col-md-9">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">权限菜单</h3>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
+        <div class="modal fade" id="modal-role">
+            <div class="modal-dialog">
+                <form class="form-horizontal" id="modal-role-form" action="/admin/save_role/">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">角色设置</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="role_id" name="role_id"/>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">角色名称</label>
 
-
-                    <ul class="media-list" data-widget="tree">
-
-                        {%- for item in current_menu.children recursive -%}
-                            <li class="media">
-                                <div class="media-left">
-                                    <input type="checkbox" class="flat-blue" name="perms" value="{{ item.url }}" {{ 'checked' if item.url in perms }}>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="role_name" name="role_name"
+                                           placeholder="角色名称" required>
                                 </div>
-                                <div class="media-body">{{ item.text }}
-                                    {%- if item.children -%}
-                                        <ul class="media">
-                                            {{ loop(item.children) }}
-                                        </ul>
-                                    {%- endif -%}
-                                </div>
-                            </li>
-                        {% endfor %}
-
-                    </ul>
-
-
-                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                            <button type="submit" class="btn btn-primary" id="modal-role-save">保存</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- /.modal-content -->
             </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+
+        <div class="col-md-9">
+
+            <form id="auth_form" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">权限菜单</h3>
+
+
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-default" id="auth_submit"><i class="fa fa-save"></i>保存权限
+                            </button>
+                        </div>
+
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+
+
+                        <ul class="media-list" data-widget="tree">
+
+                            {%- for item in current_menu.children recursive -%}
+                                <li class="media">
+                                    <div class="media-left">
+                                        <input type="checkbox" class="flat-blue" name="perms"
+                                               value="{{ item.url }}" {{ 'checked' if item.url in perms }}>
+                                    </div>
+                                    <div class="media-body">{{ item.text }}
+                                        {%- if item.children -%}
+                                            <ul class="media">
+                                                {{ loop(item.children) }}
+                                            </ul>
+                                        {%- endif -%}
+                                    </div>
+                                </li>
+                            {% endfor %}
+
+                        </ul>
+
+
+                    </div>
+                </div>
+            </form>
+
+
         </div>
     </div>
 
@@ -70,14 +131,35 @@
 
 {% block scripts %}
 
-<script>
+    <script>
 
-//Flat red color scheme for iCheck
-$('input[type="checkbox"].flat-blue, input[type="radio"].flat-blue').iCheck({
-  checkboxClass: 'icheckbox_flat-green',
-  radioClass   : 'iradio_flat-green'
-})
+        //Flat red color scheme for iCheck
+        $('input[type="checkbox"].flat-blue, input[type="radio"].flat-blue').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        })
 
-</script>
+
+        //save authorized by selected active role
+        $('#auth_submit').bind('click', function () {
+
+            active_rid = $('#role_panel li[class="active"] a').attr('href').split('?')[1];
+
+            $('#auth_form').attr('action', '/admin/save_authorized/?' + active_rid);
+            $('#auth_form').submit();
+        });
+
+
+        //modify role
+        $('#modal-role-modify').bind('click', function () {
+            active_rid = $('#role_panel li[class="active"] a').attr('href').split('=')[1];
+            active_rname = $('#role_panel li[class="active"] a').text().trim();
+
+            $('#modal-role-form #role_id').attr('value', active_rid);
+            $('#modal-role-form #role_name').attr('value', active_rname);
+
+        });
+
+    </script>
 
 {% endblock %}

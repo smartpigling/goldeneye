@@ -4,27 +4,32 @@
 
     <div class="row">
 
-        <div class="col-md-3">
-
-
-            <div class="btn-group text-center margin-bottom">
-                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-role">
-                    <i class="fa fa-save"></i>添加角色
-                </button>
-                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-role"
-                        id="modal-role-modify">
-                    <i class="fa fa-save"></i>修改角色
-                </button>
-                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-default">
-                    <i class="fa fa-save"></i>删除角色
-                </button>
-            </div>
+        <div class="col-md-5">
 
 
             <div class="box box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title">系统角色</h3>
+                    <div class="box-tools">
 
+
+                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal"
+                                data-target="#modal-role-default">
+                            <i class="fa fa-plus"></i>添加角色
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal"
+                                data-target="#modal-role-default"
+                                id="modal-role-modify">
+                            <i class="fa fa-edit"></i>修改角色
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal"
+                                data-target="#modal-role-warning"
+                                id="modal-role-delete">
+                            <i class="fa fa-trash"></i>删除角色
+                        </button>
+
+
+                    </div>
                 </div>
                 <div class="box-body no-padding">
                     <ul id="role_panel" class="nav nav-pills nav-stacked">
@@ -42,9 +47,9 @@
         <!-- /.col -->
 
 
-        <div class="modal fade" id="modal-role">
+        <div class="modal fade" id="modal-role-default">
             <div class="modal-dialog">
-                <form class="form-horizontal" id="modal-role-form" action="/admin/save_role/">
+                <form class="form-horizontal" id="modal-role-form" action="/admin/save_role/" method="post">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <div class="modal-content">
                         <div class="modal-header">
@@ -55,7 +60,7 @@
                         <div class="modal-body">
                             <input type="hidden" id="role_id" name="role_id"/>
                             <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-2 control-label">角色名称</label>
+                                <label for="role_name" class="col-sm-2 control-label">角色名称</label>
 
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="role_name" name="role_name"
@@ -65,7 +70,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
-                            <button type="submit" class="btn btn-primary" id="modal-role-save">保存</button>
+                            <button type="submit" class="btn btn-primary">保存</button>
                         </div>
                     </div>
                 </form>
@@ -76,7 +81,41 @@
         <!-- /.modal -->
 
 
-        <div class="col-md-9">
+        <div class="modal modal-warning fade" id="modal-role-warning">
+            <div class="modal-dialog">
+                <form class="form-horizontal" id="modal-role-delete-form" action="/admin/del_role/" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">确认删除当前角色?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="role_id" name="role_id"/>
+                            <div class="form-group">
+                                <label for="role_name" class="col-sm-2 control-label">角色名称</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="role_name" name="role_name"
+                                           placeholder="角色名称" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                            <button type="submit" class="btn btn-warning">删除</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+
+        <div class="col-md-7">
 
             <form id="auth_form" method="post">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
@@ -157,6 +196,16 @@
 
             $('#modal-role-form #role_id').attr('value', active_rid);
             $('#modal-role-form #role_name').attr('value', active_rname);
+
+        });
+
+        //delete role
+        $('#modal-role-delete').bind('click', function () {
+            active_rid = $('#role_panel li[class="active"] a').attr('href').split('=')[1];
+            active_rname = $('#role_panel li[class="active"] a').text().trim();
+
+            $('#modal-role-delete-form #role_id').attr('value', active_rid);
+            $('#modal-role-delete-form #role_name').attr('value', active_rname);
 
         });
 

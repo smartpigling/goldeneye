@@ -46,7 +46,7 @@ def save_authorized():
     return redirect(url_for('admin.authorized', active_rid=active_rid))
 
 
-@blueprint.route('/save_role/', methods=['GET', 'POST'])
+@blueprint.route('/save_role/', methods=['POST'])
 def save_role():
     role_id = request.values.get('role_id', default=None)
     role_name = request.values.get('role_name')
@@ -57,3 +57,11 @@ def save_role():
     else:
         Role.create(name=role_name)
     return redirect(url_for('admin.authorized', active_rid=role_id))
+
+
+@blueprint.route('/del_role/', methods=['POST'])
+def del_role():
+    role_id = request.values.get('role_id', default=None)
+    if role_id:
+        Role.get_by_id(role_id).delete()
+    return redirect(url_for('admin.authorized'))

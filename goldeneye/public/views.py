@@ -38,10 +38,10 @@ def login():
     # Handle logging in
     if request.method == 'POST':
         if form.validate_on_submit():
-            login_user(form.user, remember=form.remember.data)
+            login_user(form.user)
             flash('You are logged in.', 'success')
-            next = request.args.get('next')
-            return redirect(next or url_for('public.home'))
+            redirect_url = request.args.get('next') or url_for('login')
+            return redirect(redirect_url)
         else:
             flash_errors(form)
     return render_template('public/login.html', form=form)
